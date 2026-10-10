@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+env/
+
+# SQLite database — regenerable via CSV import workflow
+data/gem_astra.db
+
+# Frontend build output and dependencies
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/.vite/
+
+# IDE and editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets and environment
+.env
+.env.*
+*.key
+*.pem
+
+# Environment files anywhere in the project
+**/.env
+**/.env.*
+
+# Logs and coverage
+*.log
+.coverage
+htmlcov/

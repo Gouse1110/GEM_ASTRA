@@ -1,0 +1,23 @@
+tender_id,bidder_id,bid_amount,bid_timestamp,outcome,product_category,source_type
+T001,B001,100000,2024-01-10 10:00:00,won,laptops,synthetic_demo
+T001,B002,101000,2024-01-10 10:05:00,lost,laptops,synthetic_demo
+T001,B003,115000,2024-01-10 10:08:00,lost,laptops,synthetic_demo
+T002,B002,200000,2024-02-05 09:00:00,won,printers,synthetic_demo
+T002,B001,201500,2024-02-05 09:10:00,lost,printers,synthetic_demo
+T002,B004,220000,2024-02-05 09:15:00,lost,printers,synthetic_demo
+T003,B001,150000,2024-03-01 11:00:00,won,laptops,synthetic_demo
+T003,B002,151200,2024-03-01 11:05:00,lost,laptops,synthetic_demo
+T003,B005,175000,2024-03-01 11:10:00,lost,laptops,synthetic_demo
+T004,B003,300000,2024-04-10 14:00:00,won,furniture,synthetic_demo
+T004,B006,310000,2024-04-10 14:05:00,lost,furniture,synthetic_demo
+T005,B007,50000,2024-05-01 08:00:00,,stationery,synthetic_demo
+T005,B008,52000,2024-05-01 08:05:00,,stationery,synthetic_demo
+T006,B009,,2024-06-01 09:00:00,lost,laptops,synthetic_demo
+T006,B010,80000,2024-06-01 09:05:00,won,laptops,synthetic_demo
+T007,B001,90000,2024-07-01 10:00:00,won,laptops,synthetic_demo
+T007,B002,90500,2024-07-01 10:03:00,lost,laptops,synthetic_demo
+T008,B011,400000,2024-08-01 12:00:00,won,vehicles,synthetic_demo
+T008,B012,405000,2024-08-01 12:10:00,lost,vehicles,synthetic_demo
+T009,B004,60000,2024-09-01 09:00:00,won,stationery,synthetic_demo
+T009,B005,61000,2024-09-01 09:05:00,lost,stationery,synthetic_demo
+T010,B001,200000,2024-10-01 10:00:00,,laptops,synthetic_demo

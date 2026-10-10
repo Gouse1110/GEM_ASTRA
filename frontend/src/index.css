@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-gem-bg text-gem-text;
+    margin: 0;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar        { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track  { @apply bg-gem-bg; }
+  ::-webkit-scrollbar-thumb  { @apply bg-gem-border rounded-full; }
+
+  /* Focus rings — emerald */
+  :focus-visible {
+    @apply outline-none ring-2 ring-gem-emerald ring-offset-2 ring-offset-white;
+  }
+}
+
+@layer components {
+  /* ── Navigation items ─────────────────────────────────────────── */
+  .nav-item {
+    @apply flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium
+           text-gem-muted hover:text-gem-text hover:bg-slate-100
+           transition-colors duration-150 cursor-pointer;
+  }
+  .nav-item.active {
+    @apply text-gem-emerald-text bg-gem-emerald-nav hover:bg-gem-emerald-nav;
+  }
+
+  /* ── Card surface ─────────────────────────────────────────────── */
+  .card {
+    @apply bg-gem-card border border-gem-border rounded-xl p-5 shadow-card;
+  }
+
+  /* ── Badges ───────────────────────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  }
+  /* emerald = verified / real */
+  .badge-teal  {
+    @apply badge bg-gem-emerald-soft text-gem-emerald-text border border-emerald-200;
+  }
+  /* amber = synthetic / demo */
+  .badge-amber {
+    @apply badge bg-amber-50 text-amber-700 border border-amber-200;
+  }
+  /* slate = unknown / neutral */
+  .badge-slate {
+    @apply badge bg-slate-100 text-slate-600 border border-slate-200;
+  }
+  /* red = error / rejected */
+  .badge-red {
+    @apply badge bg-red-50 text-red-700 border border-red-200;
+  }
+
+  /* ── Form controls ────────────────────────────────────────────── */
+  .input {
+    @apply w-full bg-white border border-gem-border rounded-lg px-3 py-2
+           text-sm text-gem-text placeholder-gem-subtle
+           focus:outline-none focus:ring-2 focus:ring-gem-emerald focus:border-transparent;
+  }
+
+  .select {
+    @apply input appearance-none cursor-pointer;
+  }
+
+  /* ── Primary button ───────────────────────────────────────────── */
+  .btn-primary {
+    @apply px-4 py-2 rounded-lg bg-gem-emerald hover:bg-gem-emerald-hover
+           text-sm font-medium text-white transition-colors
+           disabled:opacity-40 disabled:cursor-not-allowed
+           focus:outline-none focus:ring-2 focus:ring-gem-emerald focus:ring-offset-2;
+  }
+
+  /* ── Section label ────────────────────────────────────────────── */
+  .section-label {
+    @apply text-xs font-semibold text-gem-muted uppercase tracking-widest mb-4;
+  }
+}
