@@ -159,6 +159,46 @@ export async function fetchNetwork(): Promise<NetworkData> {
   return apiFetch("/network");
 }
 
+// --------------------------------------------------------------------------
+// Risk Analysis
+// --------------------------------------------------------------------------
+
+export interface RiskFinding {
+  rule: string;
+  rule_name: string;
+  tender_ids: string[];
+  bidder_ids: string[];
+  evidence: Record<string, unknown>;
+  threshold_or_criterion: string;
+  explanation: string;
+  source_type: string;
+  data_limitations: string;
+  insufficient_data: boolean;
+}
+
+export interface RiskSummary {
+  score: number;
+  score_band: string;
+  score_explanation: string;
+  total_bids_analysed: number;
+  actionable_findings_count: number;
+  rules_fired: string[];
+  source_type: string;
+  real_data_available: boolean;
+  warnings: string[];
+}
+
+export interface RiskData {
+  summary: RiskSummary;
+  findings: RiskFinding[];
+  source_label: string;
+  disclaimer: string;
+}
+
+export async function fetchRiskAnalysis(): Promise<RiskData> {
+  return apiFetch("/risk");
+}
+
 export async function importTendersCsv(
   file: File,
   sourceTypeOverride?: string,

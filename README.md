@@ -28,13 +28,13 @@ streamlit run app.py
 The app opens at `http://localhost:8501` by default.  
 The SQLite database (`data/gem_astra.db`) is created automatically on first launch.
 
-## React frontend (Step 5 migration)
+## React frontend (Steps 1–4 complete)
 
 ```bash
-# Terminal 1 — FastAPI backend
+# Terminal 1 — FastAPI backend (port 8000)
 uvicorn backend.main:app --reload --port 8000
 
-# Terminal 2 — React / Vite dev server
+# Terminal 2 — React / Vite dev server (port 5173)
 cd frontend
 npm install        # first time only
 npm run dev
@@ -46,8 +46,14 @@ npm run dev
 | FastAPI backend | http://localhost:8000 |
 | API docs (Swagger) | http://localhost:8000/api/docs |
 | Health check | http://localhost:8000/api/health |
+| Network graph | http://localhost:8000/api/network |
+| Risk analysis | http://localhost:8000/api/risk |
 
-The Vite dev server proxies `/api/*` requests to FastAPI automatically.
+The Vite dev server proxies all `/api/*` requests to FastAPI automatically.
+
+> **Note:** If port 8000 is occupied by a stale process, run:
+> `uvicorn backend.main:app --port 8001` and update the proxy target in
+> `frontend/vite.config.ts` to `http://localhost:8001` temporarily.
 
 ## Run tests
 
@@ -115,9 +121,9 @@ README.md
 
 | Module | Status |
 |---|---|
-| Overview | ✅ Done |
-| Tender Explorer | ✅ Done |
-| Risk Analysis | 🔜 Coming Soon |
-| Bidder Network | 🔜 Coming Soon |
-| Investigation Reports | 🔜 Coming Soon |
+| Overview | ✅ Live — database-derived metrics |
+| Tender Explorer | ✅ Live — SQLite browse, search, CSV import |
+| Risk Analysis | ✅ Live — engine findings, score, evidence |
+| Bidder Network | ✅ Live — SVG co-participation graph |
+| Investigation Reports | 🔜 Planned |
 | About | ✅ Done |

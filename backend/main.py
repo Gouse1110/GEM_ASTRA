@@ -15,6 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.routers import tenders as tenders_router
 from backend.routers import summary as summary_router
 from backend.routers import network as network_router
+from backend.routers import risk as risk_router
 
 app = FastAPI(
     title="GeM Astra API",
@@ -30,7 +31,6 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "http://localhost:3000",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -55,3 +55,4 @@ def health():
 app.include_router(tenders_router.router)
 app.include_router(summary_router.router)
 app.include_router(network_router.router)
+app.include_router(risk_router.router)
