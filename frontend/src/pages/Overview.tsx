@@ -34,6 +34,9 @@ export function Overview() {
         .then(setSummary)
         .catch(() => setSummaryError(true));
     }
+    if (apiStatus === "offline") {
+      setSummaryError(true);
+    }
   }, [apiStatus]);
 
   const isSynthetic = (source: string) => source.includes("synthetic");

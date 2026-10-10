@@ -53,16 +53,27 @@ export interface TenderListParams {
 // --------------------------------------------------------------------------
 
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, init);
-  if (!res.ok) {
-    let detail = `HTTP ${res.status}`;
-    try {
-      const body = await res.json();
-      detail = body?.detail ?? detail;
-    } catch { /* ignore */ }
-    throw new Error(detail);
+  // 8-second timeout on every request unless caller provides its own signal
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  const mergedInit: RequestInit = {
+    ...init,
+    signal: init?.signal ?? controller.signal,
+  };
+  try {
+    const res = await fetch(`${BASE}${path}`, mergedInit);
+    if (!res.ok) {
+      let detail = `HTTP ${res.status}`;
+      try {
+        const body = await res.json();
+        detail = body?.detail ?? detail;
+      } catch { /* ignore */ }
+      throw new Error(detail);
+    }
+    return res.json() as Promise<T>;
+  } finally {
+    clearTimeout(timer);
   }
-  return res.json() as Promise<T>;
 }
 
 // --------------------------------------------------------------------------
@@ -111,13 +122,7 @@ export interface SummaryData {
 }
 
 export async function fetchSummary(): Promise<SummaryData> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 8000); // 8s timeout
-  try {
-    return await apiFetch("/summary", { signal: controller.signal });
-  } finally {
-    clearTimeout(timer);
-  }
+  return apiFetch("/summary");
 }
 
 export async function fetchTenderById(tenderId: string): Promise<TenderRecord> {
@@ -197,6 +202,54 @@ export interface RiskData {
 
 export async function fetchRiskAnalysis(): Promise<RiskData> {
   return apiFetch("/risk");
+}
+
+// --------------------------------------------------------------------------
+// Auth
+// --------------------------------------------------------------------------
+
+export interface TokenResponse {
+  access_token: string;
+  token_type: string;
+  role: string;
+  email: string;
+  user_id: string;
+}
+
+export interface UserProfile {
+  user_id: string;
+  email: string;
+  role: string;
+  org_id: string | null;
+  is_active: boolean;
+}
+
+export async function login(email: string, password: string): Promise<TokenResponse> {
+  // OAuth2PasswordRequestForm expects form-encoded body
+  const body = new URLSearchParams({ username: email, password });
+  const res = await fetch(`${BASE}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body.toString(),
+  });
+  if (!res.ok) {
+    let detail = `HTTP ${res.status}`;
+    try { detail = (await res.json()).detail ?? detail; } catch { /* ignore */ }
+    throw new Error(detail);
+  }
+  return res.json();
+}
+
+export async function fetchMe(token: string): Promise<UserProfile> {
+  const res = await fetch(`${BASE}/auth/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+export async function seedDemo(): Promise<unknown> {
+  return apiFetch("/auth/seed-demo", { method: "POST" });
 }
 
 export async function importTendersCsv(

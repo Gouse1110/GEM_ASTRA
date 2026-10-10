@@ -6,9 +6,12 @@ import {
   Network,
   ClipboardList,
   Info,
+  LogOut,
+  User,
 } from "lucide-react";
 import { cn } from "../../lib/cn";
 import { StatusBadge } from "../ui/StatusBadge";
+import { useAuth } from "../../lib/auth";
 
 const nav = [
   { to: "/",        label: "Overview",              icon: LayoutDashboard, status: null      },
@@ -19,6 +22,8 @@ const nav = [
 ];
 
 export function Sidebar() {
+  const { user, logout } = useAuth();
+
   return (
     <aside className="flex flex-col w-60 shrink-0 bg-gem-card border-r border-gem-border min-h-screen shadow-sidebar">
       {/* Brand */}
@@ -55,8 +60,8 @@ export function Sidebar() {
         ))}
       </nav>
 
-      {/* About + version */}
-      <div className="px-3 pb-4 border-t border-gem-border pt-3">
+      {/* About + user + version */}
+      <div className="px-3 pb-4 border-t border-gem-border pt-3 space-y-0.5">
         <NavLink
           to="/about"
           className={({ isActive }) => cn("nav-item", isActive && "active")}
@@ -64,7 +69,32 @@ export function Sidebar() {
           <Info size={15} className="shrink-0" />
           <span>About</span>
         </NavLink>
-        <p className="px-3 mt-3 text-[10px] text-gem-subtle">
+
+        {/* User info */}
+        {user && (
+          <div className="px-3 py-2 mt-1">
+            <div className="flex items-center gap-2 text-xs text-gem-muted">
+              <User size={12} className="shrink-0" />
+              <span className="truncate flex-1">{user.email}</span>
+            </div>
+            <span className="inline-block mt-1 text-[10px] font-medium px-1.5 py-0.5 rounded bg-gem-emerald-soft text-gem-emerald-text border border-emerald-200">
+              {user.role}
+            </span>
+          </div>
+        )}
+
+        {/* Logout */}
+        {user && (
+          <button
+            onClick={logout}
+            className="nav-item w-full text-left text-red-600 hover:text-red-700 hover:bg-red-50"
+          >
+            <LogOut size={15} className="shrink-0" />
+            <span>Sign out</span>
+          </button>
+        )}
+
+        <p className="px-3 mt-2 text-[10px] text-gem-subtle">
           GeM Astra v0.1 · Prototype
         </p>
       </div>
